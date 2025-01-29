@@ -13,6 +13,23 @@
 
 var observing = false;
 
+// Function to open URIs in either a web browser or in Slack Desktop.
+function crossPlatformOpen(uri) {
+    // If we're in an electron environment, use open();
+    if (isDesktop && isDesktop()) {
+        console.log("[SLACK-ORG-PROTOCOL] Detected Slack desktop, opening with open");
+        open(uri);
+    } else if (location && typeof location.href != 'undefined') {
+        console.log("[SLACK-ORG-PROTOCOL] Opening with location.href");
+        location.href = uri;
+    } else if (window && typeof window.open != 'undefined') {
+        console.log("[SLACK-ORG-PROTOCOL] Opening with window.open");
+        window.open(uri, '_blank');
+    } else {
+        alert("[SLACK-ORG-PROTOCOL] Cannot find a suitable API to open a URI (" + uri + "). This is a bug.");
+    }
+};
+
 // Function to create and insert the button
 function insertButton() {
   // Check if the button already exists to avoid duplicates
@@ -57,7 +74,9 @@ function insertButton() {
     console.debug(link);
     const captureURI = createCaptureURI(sender, message, link);
     console.debug(captureURI);
-    location.href = captureURI;
+
+    crossPlatformOpen(captureURI);
+
     // TODO: Set fillColor to #1c97cc
     for (let path of event.target.getElementsByTagName('path')) {
       path.setAttribute('fill', '#1c97cc');
