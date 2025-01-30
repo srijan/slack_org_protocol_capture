@@ -8,6 +8,10 @@ More details in the blog post: https://srijan.ch/capturing-slack-messages-direct
 
 # Changelog
 
+## v1.1
+
+Support running inside Slack Desktop app.
+
 ## v1.0
 
 Initial working version

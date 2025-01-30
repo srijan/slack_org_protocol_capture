@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://app.slack.com/client/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      srijan
 // @supportURL  https://github.com/srijan/slack_org_protocol_capture
 // @description Add a button to send a slack message to org-protocol
