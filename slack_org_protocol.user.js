@@ -13,6 +13,9 @@
 
 var observing = false;
 
+// Override this variable to build your own org-protocol URI
+var orgProtocolURIBuilder = (url, title, body) => "org-protocol://capture?url=" + url + "&title=" + title + "&body=" + body;
+
 // Function to open URIs in either a web browser or in Slack Desktop.
 function crossPlatformOpen(uri) {
     // If we're in an electron environment, use open();
@@ -96,11 +99,12 @@ function insertButton() {
 }
 
 function createCaptureURI(sender, message, link) {
-  // new style
-  const encoded_url = encodeURIComponent(link);
-  const escaped_title = escapeIt(link);
-  const escaped_message = escapeIt(sender + ": " + message);
-  return "org-protocol://capture?url=" + encoded_url + "&title=" + escaped_title + "&body=" + escaped_message;
+  // Build the URI string
+  return orgProtocolURIBuilder(
+      encodeURIComponent(link), 
+      escapeIt(link), 
+      escapeIt(sender + ": " + message)
+  );
 }
 
 // From https://github.com/sprig/org-capture-extension/blob/3911377933619a24562730dc8b353424f8809d9e/capture.js#L87
